@@ -1,3 +1,12 @@
+# 
+#    Filename: movie.py
+#    Description: 
+#    Last modified: 2014-11-17 22:24
+#
+#    Created by Eleven on 2014-11-17
+#    Email: eleveneat@gmail.com
+#    Copyright (C) 2014 Eleven. All rights reserved.
+#
 import os.path
 
 import tornado.httpserver
@@ -28,7 +37,6 @@ class GeneralOverview(object):
     def getDirFileMessage(self, path):
         fs = open(path, "r")
         self.overview_list = fs.readlines()
-        tmp = self.overview_list[0]
         fs.close()
 
 class MainHandler(tornado.web.RequestHandler):
@@ -40,10 +48,6 @@ class MainHandler(tornado.web.RequestHandler):
         reviews_number = self.get_argument("reviews_number", None)
         rotten_or_fresh = self.get_argument("rotten_or_fresh", None)
         overview_list = self.get_argument("overview_list", None)
-        # review_rotten_or_fresh_list = self.get_argument("review_rotten_or_fresh_list", None)
-        # review_content_list = self.get_argument("review_content_list", None)
-        # review_name_list = self.get_argument("review_name_list", None)
-        # review_company_list = self.get_argument("review_company_list", None)
         review_rotten_or_fresh_list =[]
         review_content_list = []
         review_name_list = []
@@ -85,24 +89,23 @@ class MainHandler(tornado.web.RequestHandler):
 def getReviewMessage(asked_film_name, review_rotten_or_fresh_list,\
     review_content_list, review_name_list, review_company_list):
     path = "static/moviefiles/" + asked_film_name
-    all_file_list = os.listdir(path)
-    for item in all_file_list:
-        if item.find("review") is not -1:
-            fs = open(path + "/" + item, "r")
 
-            review_content_list.append(fs.readline())
+    all_reviews_list = [x for x in os.listdir(path) if x.find("review") is not -1]
+    for item in all_reviews_list:
+        fs = open(path + "/" + item, "r")
 
-            rotten_or_fresh = fs.readline()
-            if rotten_or_fresh.find("ROTTEN") is not -1:
-                review_rotten_or_fresh_list.append("rotten.gif")
-            else:
-                review_rotten_or_fresh_list.append("fresh.gif")
+        review_content_list.append(fs.readline())
 
-            review_name_list.append(fs.readline())
+        rotten_or_fresh = fs.readline()
+        if rotten_or_fresh.find("ROTTEN") is not -1:
+            review_rotten_or_fresh_list.append("rotten.gif")
+        else:
+            review_rotten_or_fresh_list.append("fresh.gif")
 
-            review_company_list.append(fs.readline())
-            fs.close()
+        review_name_list.append(fs.readline())
 
+        review_company_list.append(fs.readline())
+        fs.close()
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
