@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Buy Your Way to a Better Education!</title>
+		<link href="{{ static_url('css') }}/buyagrade.css" type="text/css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<h1>Thanks, sucker!</h1>
+
+		<p>Your information has been recorded.</p>
+
+		<dl>
+			<dt>Name</dt>
+			<dd>{{ suckerName }}</dd>
+
+			<dt>Section</dt>
+			<dd>{{ suckerSection }}</dd>
+
+			<dt>Credit Card</dt>
+			<dd>
+				{{ suckerCreditCardNum }}
+				({{ suckerCreditCardType }})
+			</dd>
+		</dl>
+		<p>Here are all the suckers who have submitted here:</p>
+		<pre>{{ suckerFileMessages }}</pre>
+	</body>
+</html>  
