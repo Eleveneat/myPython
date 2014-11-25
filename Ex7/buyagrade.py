@@ -53,4 +53,46 @@ class MainHandler(tornado.web.RequestHandler):
             reason = "You didn't fill out the form completely."
             self.render("sorry.html", errorReason=reason)
 
+def isLuhnValid(creditCardNum):
+    sum = 0
+    numList = creditCardNum.split("-")
+    tmp = ""
+    creditCardNum = tmp.join(numList)
+    oddDigitValue = creditCardNum[1::2]
+    evenDigitValue = creditCardNum[::2]
+    for i in oddDigitValue:
+        sum += locale.atoi(i)
+    for i in evenDigitValue:
+        value = locale.atoi(i) * 2
+        if value < 10:
+            sum += value
+        else:
+            sum += value % 10 + 1
+    if sum % 10:
+        return False;
+    else:
+        return True;
 
+def writeSuckersFile(name, section, creditCardNum, creditCardType):
+    fs = open("static/txt/suckers.txt", "a")
+    message = name + ";" + section + ";" + creditCardNum + ";" + creditCardType + "\n"
+    fs.write(message)
+    fs.close()
+
+class SuckerHandler(MainHandler):
+    def get(self):
+        pass
+class SorryHandler(MainHandler):
+    def get(self):
+        pass
+if __name__ == "__main__":
+    tornado.options.parse_command_line()
+    application = tornado.web.Application(
+    [(r"/", MainHandler), (r"/sucker", SuckerHandler), (r"/sorry", SorryHandler)],
+    template_path = os.path.join(os.path.dirname(__file__), "templates"),
+    static_path = os.path.join(os.path.dirname(__file__), "static"),
+    debug = True
+    )
+    http_server = tornado.httpserver.HTTPServer(application)
+    http_server.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()
