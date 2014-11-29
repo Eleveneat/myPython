@@ -1,0 +1,102 @@
+/*
+CSE 190 M, Spring 2009, Marty Stepp
+Homework 4: NerdLuv
+Stylesheet for HTML forms / basic PHP program
+You should modify this stylesheet as necessary to reproduce the expected page.
+*/
+
+/* provided styles */
+
+* {
+	font-size: 12pt;
+	font-family: "Verdana", "Geneva", sans-serif;
+}
+
+body {
+	background-color: white;
+	padding: 1em;
+}
+
+#bannerarea {
+	margin-bottom: 2em;
+}
+
+div {
+	margin-top: 0.5em;
+}
+
+.info {
+	padding-left: 160px;
+}
+
+#main {
+	overflow: hidden;
+	width: 34em;
+}
+
+.match {
+	margin-bottom: 3em;
+}
+
+.name {
+	background-color: #E0E0FF;
+	clear: left;
+}
+
+.name img {
+	width: 150px;
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 3em;
+}
+
+#seeking {
+	margin-top: 2em;
+}
+
+#w3c {
+	clear: both;
+}
+
+#w3c img {
+	border-width: 0px;
+}
+
+
+/* your additional styles go here */
+
+#Sign_Up_From {
+	width: 32em;
+	background-color: #E0E0FF;
+	border: 2px outset rgba(192,192,192,1);
+	padding-left: 1em;
+}
+#Sign_Up_From > #Banner {
+	background-color: white;
+	border: 2px outset rgba(192,192,192,1);
+	/*padding-bottom: 1em;*/
+	position: relative;
+	bottom: 8pt;
+}
+#Sign_Up_From > #Form {
+	position: relative;
+	bottom: 8pt;
+}
+#Sign_Up_From .Label {
+	width: 11em;
+	display: inline-block;
+}
+#Sign_Up_From input {
+	border: 2px outset rgba(192,192,192,1);
+}
+#Sign_Up_From #Name {
+	width: 10em;
+}
+#Sign_Up_From #Age, #Personality_Type, #Min_Age, #Max_Age {
+	width: 3em;
+}
+#Sign_Up_From #Submit_Button {
+	background-color: #FFAAAA;
+	font-size: 120%;
+	font-weight: bold;
+}

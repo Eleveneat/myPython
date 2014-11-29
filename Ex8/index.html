@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<!-- CSE 190 M Homework 4 (NerdLuv) -->
+	<head>
+		<title>NerdLuv</title>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<link href="heart.gif" type="image/gif" rel="shortcut icon" />
+		<link href="nerdluv.css" type="text/css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div id="main">
+			<div id="bannerarea">
+				<img src="nerdluv.png" alt="banner logo" /> <br />
+				where meek geeks meet
+			</div>
+
+			<div id="Sign_Up_From">
+				<span id="Banner">New User Signup:</span>
+				<div id="Form">
+					<form action="/results" method="post"></form>
+						<div>
+							<div class="Label"><strong>Name:</strong></div>
+							<input type="text" name="Name" maxlength="16" id="Name"/>
+						</div>
+
+						<div>
+							<div class="Label"><strong>Gender:</strong></div>
+							<input type="radio" name="Gender" value="Male" id="Gender_Male">
+							<label for="Gender_Male">Male</label>
+							<input type="radio" name="Gender" value="Female" id="Gender_Female" checked="checked">
+							<label for="Gender_Female">Female</label>
+						</div>
+
+						<div>
+							<div class="Label"><strong>Age:</strong></div>
+							<input type="text" name="Age" maxlength="2" id="Age"/>
+						</div>
+
+						<div>
+							<div class="Label"><strong>Personality type:</strong></div>
+							<input type="text" name="Personality_Type" maxlength="4" id="Personality_Type"/>
+							(<a href="http://www.humanmetrics.com/cgi-win/JTypes2.asp">Don't know your type?</a>)
+						</div>
+
+						<div>
+							<div class="Label"><strong>Favorite OS:</strong></div>
+							<select name="section" id="Favorite_OS">
+								<option value="Windows">Windows</option>
+								<option value="MacOSX">MacOSX</option>
+								<option value="Linux">Linux</option>
+								<option value="other">other</option>
+							</select>
+						</div>
+
+
+						<div id="seeking">
+							<div class="Label"><strong>Seeking:</strong></div>
+							<input type="checkbox" name="Seeking" value="Male" id="Seeking_Male" checked="checked">
+							<label for="Seeking_Male">Male</label>
+							<input type="checkbox" name="Seeking" value="Female" id="Seeking_Female">
+							<label for="Seeking_Female">Female</label>
+						</div>
+
+						<div>
+							<div class="Label"><strong>Between ages:</strong></div>
+							<input type="text" name="Min_Age" maxlength="2" id="Min_Age"/>and
+							<input type="text" name="Max_Age" maxlength="2" id="Max_Age"/>
+						</div>
+
+						<div>
+							<input type="submit" value="Sign Up" id="Submit_Button">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<p>
+			Results and page (C) Copyright 2009 NerdLuv Inc.
+		</p>
+
+		<div id="w3c">
+			<a href="http://validator.w3.org/check/referer">
+				<img src="http://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML 1.1" /></a>
+			<a href="http://jigsaw.w3.org/css-validator/check/referer">
+				<img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS" /></a>
+		</div>
+	</body>
+</html>
+
+	
