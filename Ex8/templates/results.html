@@ -18,18 +18,20 @@
 				<h1>Matches for Marty Stepp</h1>
 
 				<div class="match">
+					{% for user in MatchUsers %}
 					<p class="name">
-						<img src="images/ada_lovelace.jpg" alt="Ada Lovelace" />
-						Ada Lovelace 
+						<img src="static/images/{{ user['ImageName'] }}" alt="{{ user['Name'] }}">
+						{{ user['Name'] }}
 					</p>
 
 					<p class="info">
-						<strong>gender:</strong>  F <br />
-						<strong>age:</strong>     96 <br />
-						<strong>type:</strong>    ISTJ <br />
-						<strong>OS:</strong>      Linux <br />
-						<strong>rating:</strong>  4
+						<strong>gender:</strong>  {{ user['Gender'] }} <br />
+						<strong>age:</strong>     {{ user['Age'] }} <br />
+						<strong>type:</strong>    {{ user['Type'] }} <br />
+						<strong>OS:</strong>      {{ user['OS'] }} <br />
+						<strong>rating:</strong>  {{ user['Rating'] }}
 					</p>
+					{% end %}
 				</div>
 			</div>
 		</div>

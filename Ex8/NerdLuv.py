@@ -1,6 +1,6 @@
 import os.path
 import re
-# import locale
+import locale
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -8,6 +8,93 @@ import tornado.web
 
 from tornado.options import define, options
 define("port", default=8888, help="run on the given port", type=int)
+
+def matchAllUsers(gender, age, perType, favoriteOS, seeking, minAge, maxAge):
+	matchUsers = []
+	fs = open("static/txt/singles.txt", "r")
+	for i in fs.readlines():
+		i = i.strip()
+		userInfo = (x for x in i.split(","))
+		_name = userInfo.next()
+		_gender = userInfo.next()
+		_age = locale.atoi(userInfo.next())
+		_perType = userInfo.next()
+		_favoriteOS = userInfo.next()
+		_seeking = userInfo.next()
+		_minAge = locale.atoi(userInfo.next())
+		_maxAge = locale.atoi(userInfo.next())
+		# Judge whether they are of compatible gender and "seeking" value.
+		if seeking.find(_gender) == -1 or _seeking.find(gender) == -1:
+			continue
+		point = 0
+		# +1 point if the users are of compatible ages
+		if age >= _minAge and age <= _maxAge and _age >= minAge and _age <= maxAge:
+			point += 1
+		# +2 points for having the same favorite operating system.
+		if _favoriteOS == favoriteOS:
+			point += 2
+		# +1 point for having a dimension of personality type that matches the same dimension.
+		for i in xrange(len(perType)):
+			if _perType[i] == perType[i]:
+				point += 1
+		if point >= 3:
+			_imageName = getImageName(_name)
+			infoMap = {"Name":_name, "ImageName":_imageName, "Gender":_gender, "Age":_age,"Type":_perType,\
+			"OS":_favoriteOS, "Rating":point,}
+			matchUsers.append(infoMap)
+	fs.close()
+	return matchUsers
+
+def getImageName(name):
+	name = name.replace(' ', '_').lower()
+	allUsers = os.listdir("static/images")
+	for i in allUsers:
+		if i.find(name) != -1:
+			return name + ".jpg"
+	return "default_user.jpg"
+
+# if valid, it returns a empty string; if not, it returns a string having the error message.
+def isValid(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge):
+	# Judge whether the name contains merely blank characters.
+	pattern = re.compile(r'\S')
+	match = pattern.match(name)
+	if not match:
+		return "The name can not be blank. "
+	# Judge whether the age is an integer between 0 and 99.
+	pattern = re.compile(r'\d+$')
+	match = pattern.match(age)
+	if not match:
+		return "The age must be integer between 0 and 99. "
+	# Judge whether the personality type is in correct formula.
+	pattern = re.compile(r'[IE][NS][FT][JP]')
+	match = pattern.match(perType)
+	if not match:
+		return "The personality type is not in correct formula. The first letter should be \
+		I or E, the second N or S, the third F or T, the fourth J or P. For example, it shoule \
+		be INFJ or ESTP. "
+	# Judge whether the seeking is chosen.
+	if not seeking:
+		return "The seeking should not be empty, you must choose at least one. "
+	# Judge whether the minAge and maxAge are integers between 0 and 99.
+	pattern = re.compile(r'\d+$')
+	match = pattern.match(minAge)
+	if not match:
+		return "The between ages must be integer between 0 and 99. "
+	match = pattern.match(maxAge)
+	if not match:
+		return "The between ages must be integer between 0 and 99. "
+	# Judge whether the minAge is less than the maxAge.
+	maxAge = locale.atoi(maxAge)
+	minAge = locale.atoi(minAge)
+	if maxAge < minAge:
+		return "In between ages, the min age should be less than the max age. "
+	return "" # Don't exist any problems.
+
+def writeSinglesFile(userInfo):
+	info = ",".join(userInfo)
+	fs = open("static/txt/singles.txt", "a")
+	fs.write(info)
+	fs.close()
 
 class RegisterHandler(tornado.web.RequestHandler):
     def get(self):
@@ -20,39 +107,20 @@ class ResultHandler(tornado.web.RequestHandler):
         age = self.get_argument("Age")
         perType = self.get_argument("Personality_Type")
         favoriteOS = self.get_argument("Favorite_OS")
-        Seeking_Male = self.get_argument("Seeking_Male", None)
-        Seeking_Female = self.get_argument("Seeking_Female", None)
+        seeking = self.get_argument("Seeking_Male", "") + self.get_argument("Seeking_Female", "")
         minAge = self.get_argument("Min_Age")
         maxAge = self.get_argument("Max_Age")
-        seeking = [Seeking_Male, Seeking_Female]
-        print seeking
-        print type(seeking)
 
-        isError = isValid(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge) 
+        isError = isValid(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge)
+        # Form validation.
     	if isError:
     		self.render("error.html", errorReason=isError)
     	else:
-    		pass
-
-# if valid, it returns a empty string; if not, it returns a string having the error message.
-def isValid(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge):
-	# Judge whether the name contains merely blank characters.
-	pattern = re.compile(r'\S')
-	match = pattern.match(name)
-	if not match:
-		return "The name can not be blank. "
-
-	pattern = re.compile(r'\d+$')
-	match = pattern.match(age)
-	if not match:
-		return "The age must be integer between 0 and 99. "
-
-	pattern = re.compile(r'[IE][NS][FT][JP]')
-	match = pattern.match(perType)
-	if not match:
-		return "The personality type is not in correct formula. The first letter should be \
-		I or E, the second N or S, the third F or T, the fourth J or P. For example, it shoule \
-		be INFJ or ESTP. "
+    		matchUsers = matchAllUsers(gender, locale.atoi(age), perType, favoriteOS, seeking,\
+    			locale.atoi(minAge), locale.atoi(maxAge))
+    		self.render("results.html", MatchUsers=matchUsers)
+    		userInfo = [name, gender, age, perType, favoriteOS, seeking, minAge, maxAge]
+    		writeSinglesFile(userInfo)
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
