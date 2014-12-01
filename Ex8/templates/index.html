@@ -1,10 +1,20 @@
+<!-- 
+    Filename: index.html
+    Description: 
+    Last modified: 2014-12-01 22:55
+
+    Created by Eleven on 2014-12-01
+    Email: eleveneat@gmail.com
+    Copyright (C) 2014 Eleven. All rights reserved.
+ -->
+
 <!DOCTYPE html>
 <html>
 	<!-- CSE 190 M Homework 4 (NerdLuv) -->
 	<head>
 		<title>NerdLuv</title>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<link href="heart.gif" type="image/gif" rel="shortcut icon" />
+		<link href="static/images/heart.gif" type="image/gif" rel="shortcut icon" />
 		<link href="static/css/nerdluv.css" type="text/css" rel="stylesheet" />
 	</head>
 
@@ -15,13 +25,29 @@
 				where meek geeks meet
 			</div>
 
-			<div id="Sign_Up_From">
-				<span id="Banner">New User Signup:</span>
-				<div id="Form">
+			<div class="Sign_Up_From">
+				<span class="Banner">Returning User</span>
+				<div class="Form">
+					<form action="/login" method="post">
+						<div>
+							<div class="Label"><strong>Name:</strong></div>
+							<input type="text" name="loginName" maxlength="16" class="Name"/>
+						</div>
+
+						<div>
+							<input type="submit" value="View My Matches" class="Submit_Button">
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="Sign_Up_From">
+				<span class="Banner">New User Signup:</span>
+				<div class="Form">
 					<form action="/result" method="post">
 						<div>
 							<div class="Label"><strong>Name:</strong></div>
-							<input type="text" name="Name" maxlength="16" id="Name"/>
+							<input type="text" name="Name" maxlength="16" class="Name"/>
 						</div>
 
 						<div>
@@ -53,6 +79,11 @@
 							</select>
 						</div>
 
+						<div>
+							<div class="Label"><strong>Photo:</strong></div>
+							<!-- <input type="text" name="Photo" id =="Photo"> -->
+							<input type="file" value="Browse_" >
+						</div>
 
 						<div id="seeking">
 							<div class="Label"><strong>Seeking:</strong></div>
@@ -69,7 +100,7 @@
 						</div>
 
 						<div>
-							<input type="submit" value="Sign Up" id="Submit_Button">
+							<input type="submit" value="Sign Up" class="Submit_Button">
 						</div>
 					</form>
 				</div>

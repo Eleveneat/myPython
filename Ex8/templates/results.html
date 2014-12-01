@@ -1,9 +1,19 @@
+<!-- 
+    Filename: results.html
+    Description: 
+    Last modified: 2014-12-01 22:55
+
+   Created by Eleven on 2014-12-01
+   Email: eleveneat@gmail.com
+    Copyright (C) 2014 Eleven. All rights reserved.
+ -->
+ 
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>NerdLuv</title>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<link href="heart.gif" type="image/gif" rel="shortcut icon" />
+		<link href="static/images/heart.gif" type="image/gif" rel="shortcut icon" />
 		<link href="static/css/nerdluv.css" type="text/css" rel="stylesheet" />
 	</head>
 
@@ -15,7 +25,7 @@
 			</div>
 	
 			<div id="matches">
-				<h1>Matches for Marty Stepp</h1>
+				<h1>Matches for {{ Name }}</h1>
 
 				<div class="match">
 					{% for user in MatchUsers %}

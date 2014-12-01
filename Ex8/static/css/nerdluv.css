@@ -65,37 +65,38 @@ div {
 
 /* your additional styles go here */
 
-#Sign_Up_From {
+.Sign_Up_From {
 	width: 32em;
 	background-color: #E0E0FF;
 	border: 2px outset rgba(192,192,192,1);
 	padding-left: 1em;
+	margin-bottom: 1em;
 }
-#Sign_Up_From > #Banner {
+.Sign_Up_From > .Banner {
 	background-color: white;
 	border: 2px outset rgba(192,192,192,1);
 	/*padding-bottom: 1em;*/
 	position: relative;
 	bottom: 8pt;
 }
-#Sign_Up_From > #Form {
+.Sign_Up_From > .Form {
 	position: relative;
 	bottom: 8pt;
 }
-#Sign_Up_From .Label {
+.Sign_Up_From .Label {
 	width: 11em;
 	display: inline-block;
 }
-#Sign_Up_From input {
+.Sign_Up_From input {
 	border: 2px outset rgba(192,192,192,1);
 }
-#Sign_Up_From #Name {
+.Sign_Up_From .Name {
 	width: 10em;
 }
-#Sign_Up_From #Age, #Personality_Type, #Min_Age, #Max_Age {
+.Sign_Up_From #Age, #Personality_Type, #Min_Age, #Max_Age {
 	width: 3em;
 }
-#Sign_Up_From #Submit_Button {
+.Sign_Up_From .Submit_Button {
 	background-color: #FFAAAA;
 	font-size: 120%;
 	font-weight: bold;

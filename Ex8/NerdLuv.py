@@ -1,3 +1,13 @@
+#
+#   Filename: NerdLuv.py
+#    Description: 
+#    Last modified: 2014-12-01 22:55
+#
+#    Created by Eleven on 2014-12-01
+#    Email: eleveneat@gmail.com
+#    Copyright (C) 2014 Eleven. All rights reserved.
+#
+
 import os.path
 import re
 import locale
@@ -9,7 +19,7 @@ import tornado.web
 from tornado.options import define, options
 define("port", default=8888, help="run on the given port", type=int)
 
-def matchAllUsers(gender, age, perType, favoriteOS, seeking, minAge, maxAge):
+def matchAllUsers(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge):
 	matchUsers = []
 	fs = open("static/txt/singles.txt", "r")
 	for i in fs.readlines():
@@ -23,6 +33,8 @@ def matchAllUsers(gender, age, perType, favoriteOS, seeking, minAge, maxAge):
 		_seeking = userInfo.next()
 		_minAge = locale.atoi(userInfo.next())
 		_maxAge = locale.atoi(userInfo.next())
+		if name == _name:
+			continue
 		# Judge whether they are of compatible gender and "seeking" value.
 		if seeking.find(_gender) == -1 or _seeking.find(gender) == -1:
 			continue
@@ -49,9 +61,20 @@ def getImageName(name):
 	name = name.replace(' ', '_').lower()
 	allUsers = os.listdir("static/images")
 	for i in allUsers:
-		if i.find(name) != -1:
+		i = i.replace('.jpg', "")
+		if i == name:
 			return name + ".jpg"
 	return "default_user.jpg"
+
+# If the user exists, return a string line containing its information, else return a empty string.
+def isUserExist(name):
+	fs = open("static/txt/singles.txt", "r")
+	for i in fs.readlines():
+		pattern = re.compile(name + ",")
+		match = pattern.match(i)
+		if match:
+			return i.strip()
+	return ""
 
 # if valid, it returns a empty string; if not, it returns a string having the error message.
 def isValid(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge):
@@ -91,7 +114,7 @@ def isValid(name, gender, age, perType, favoriteOS, seeking, minAge, maxAge):
 	return "" # Don't exist any problems.
 
 def writeSinglesFile(userInfo):
-	info = ",".join(userInfo)
+	info = "\n" + ",".join(userInfo)
 	fs = open("static/txt/singles.txt", "a")
 	fs.write(info)
 	fs.close()
@@ -116,16 +139,36 @@ class ResultHandler(tornado.web.RequestHandler):
     	if isError:
     		self.render("error.html", errorReason=isError)
     	else:
-    		matchUsers = matchAllUsers(gender, locale.atoi(age), perType, favoriteOS, seeking,\
+    		matchUsers = matchAllUsers(name, gender, locale.atoi(age), perType, favoriteOS, seeking,\
     			locale.atoi(minAge), locale.atoi(maxAge))
-    		self.render("results.html", MatchUsers=matchUsers)
+    		self.render("results.html", Name=name, MatchUsers=matchUsers)
     		userInfo = [name, gender, age, perType, favoriteOS, seeking, minAge, maxAge]
     		writeSinglesFile(userInfo)
+
+class LoginHandler(tornado.web.RequestHandler):
+	def post(self):
+		name = self.get_argument("loginName")
+		flag = isUserExist(name)
+		if flag:
+			userInfo = (x for x in flag.split(","))
+			name = userInfo.next()
+			gender = userInfo.next()
+			age = userInfo.next()
+			perType = userInfo.next()
+			favoriteOS = userInfo.next()
+			seeking = userInfo.next()
+			minAge = userInfo.next()
+			maxAge = userInfo.next()
+			matchUsers = matchAllUsers(name, gender, locale.atoi(age), perType, favoriteOS, seeking,\
+    			locale.atoi(minAge), locale.atoi(maxAge))
+			self.render("results.html", Name=name, MatchUsers=matchUsers)
+		else:
+			self.render("error.html", errorReason="This user doesn't exist. ")
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
     application = tornado.web.Application(
-    [(r"/", RegisterHandler), (r"/result", ResultHandler)],
+    [(r"/", RegisterHandler), (r"/result", ResultHandler), (r"/login", LoginHandler)],
     template_path = os.path.join(os.path.dirname(__file__), "templates"),
     static_path = os.path.join(os.path.dirname(__file__), "static"),
     debug = True
