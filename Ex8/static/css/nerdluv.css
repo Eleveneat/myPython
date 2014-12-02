@@ -72,6 +72,7 @@ div {
 	padding-left: 1em;
 	margin-bottom: 1em;
 }
+
 .Sign_Up_From > .Banner {
 	background-color: white;
 	border: 2px outset rgba(192,192,192,1);
@@ -79,23 +80,33 @@ div {
 	position: relative;
 	bottom: 8pt;
 }
+
 .Sign_Up_From > .Form {
 	position: relative;
 	bottom: 8pt;
 }
+
 .Sign_Up_From .Label {
 	width: 11em;
 	display: inline-block;
 }
+
 .Sign_Up_From input {
 	border: 2px outset rgba(192,192,192,1);
 }
+
 .Sign_Up_From .Name {
 	width: 10em;
 }
+
+.Sign_Up_From #Pic {
+	display: none;
+}
+
 .Sign_Up_From #Age, #Personality_Type, #Min_Age, #Max_Age {
 	width: 3em;
 }
+
 .Sign_Up_From .Submit_Button {
 	background-color: #FFAAAA;
 	font-size: 120%;

@@ -1,6 +1,6 @@
 <!-- 
     Filename: index.html
-    Description: 
+    Description: None.
     Last modified: 2014-12-01 22:55
 
     Created by Eleven on 2014-12-01
@@ -44,7 +44,7 @@
 			<div class="Sign_Up_From">
 				<span class="Banner">New User Signup:</span>
 				<div class="Form">
-					<form action="/result" method="post">
+					<form action="/result" method="post" enctype="multipart/form-data">
 						<div>
 							<div class="Label"><strong>Name:</strong></div>
 							<input type="text" name="Name" maxlength="16" class="Name"/>
@@ -81,8 +81,9 @@
 
 						<div>
 							<div class="Label"><strong>Photo:</strong></div>
-							<!-- <input type="text" name="Photo" id =="Photo"> -->
-							<input type="file" value="Browse_" >
+							<input type="text" name="Path" id="Path" /> 
+							<input type="button" value='Browse...' onclick="javascript:openBrowse();"/>
+							<input type="file" name="Pic" id="Pic" accept="image/jpg" onchange="document.getElementById('Path').value=this.value" />
 						</div>
 
 						<div id="seeking">
@@ -118,6 +119,12 @@
 				<img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS" /></a>
 		</div>
 	</body>
+	<script type="text/javascript"> 
+		function openBrowse(){ 
+				var tmp=document.createEvent("MouseEvents");
+				tmp.initEvent("click", true, true);  
+				document.getElementById("Pic").dispatchEvent(tmp);
+		}
+	</script> 
 </html>
-
 	
